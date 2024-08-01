@@ -16,10 +16,28 @@ def merge(load_dt="20240724"):
     print(df_w.dtypes)
 
     # 카테고리 타입 -> Object
-    df_w['load_dt'] = df_w['load_dt'].astype('object')
-    df_w['multiMovieYn'] = df_w['multiMovieYn'].astype('object')
-    df_w['repNationCd'] = df_w['repNationCd'].astype('object')
-    print(df_w.dtypes)
-    return df_w
+    #df_w['load_dt'] = df_w['load_dt'].astype('object')
+    #df_w['multiMovieYn'] = df_w['multiMovieYn'].astype('object')
+    #df_w['repNationCd'] = df_w['repNationCd'].astype('object')
+    
+    # NaN 값을 unknown 으로 변경
+    #df_w['multiMovieYn'] = df_w['multiMovieYn'].fillna('unknown')
+    #df_w['repNationCd'] = df_w['repNationCd'].fillna('unknown')
+    #print(df_w.dtypes)
+    #print(df_w)
+
+    # 머지
+    #u_mul = df_w[df_w['multiMovieYn'] == 'unknown']
+    #u_nat = df_w[df_w['repNationCd'] == 'unknown']
+    #m_df = pd.merge(u_mul, u_nat, on='movieCd', suffixes=('_m', '_n'))
+
+    # 드랍
+    df_multiMovieYn = df_w[df_w['multiMovieYn'].isnull()].drop(columns='multiMovieYn').reset_index(drop=True)
+    df_repNationCd = df_w[df_w['repNationCd'].isnull()].drop(columns='repNationCd').reset_index(drop=True)
+    df_merge = df_multiMovieYn.merge(df_repNationCd, on=['movieCd', 'movieNm', 'load_dt'], how='outer')
+    
+    print(df_merge)
+    return df_merge
+
 
 merge()
