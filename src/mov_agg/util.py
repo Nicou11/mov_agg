@@ -11,13 +11,15 @@ def merge(load_dt="20240724"):
             'repNationCd', #한국외국영화 유무
             ]
     df = read_df[cols]
-    df_cd = df[df['movieCd'] == '20247781'].copy()
-    print(df_cd)
-    print(df_cd.dtypes)
+    df_w = df[(df['movieCd'] == '20247781') & (df['load_dt'] == int(load_dt))].copy()
+    print(df_w)
+    print(df_w.dtypes)
 
     # 카테고리 타입 -> Object
-    df_cd['load_dt'] = df_cd['load_dt'].astype('object')
-    df_cd['multiMovieYn'] = df_cd['multiMovieYn'].astype('object')
-    df_cd['repNationCd'] = df_cd['repNationCd'].astype('object')
-    print(df_cd.dtypes)
-    return df_cd
+    df_w['load_dt'] = df_w['load_dt'].astype('object')
+    df_w['multiMovieYn'] = df_w['multiMovieYn'].astype('object')
+    df_w['repNationCd'] = df_w['repNationCd'].astype('object')
+    print(df_w.dtypes)
+    return df_w
+
+merge()
